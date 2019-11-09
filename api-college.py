@@ -97,6 +97,7 @@ def update_student():
 
 
 #courses releated apis
+
 #Add course
 @app.route('/api/v1/courses', methods=['POST'])
 def add_course():
@@ -106,7 +107,7 @@ def add_course():
     _ccode=_json['coursecode']
     _credits=_json['credits']
     if _cname and _ccode and _credits and request.method=='POST':
-        id = mongo.db.course.insert({'coursename': _cname, 'coursecode': _ccode, 'credits': _credits})
+        id = mongo.db.courses.insert({'coursename': _cname, 'coursecode': _ccode, 'credits': _credits})
         resp = jsonify('course added successfully!')
         resp.status_code = 200
         return resp
@@ -114,11 +115,19 @@ def add_course():
         return not_found()
 
 #Delete course
-
-@app.route('/api/v1/courses/<coursecode>',methods=['DELETE'])
-def delete_course(coursecode):
-    mongo.db.course.delete_one({'coursecode':ObjectId(coursecode)})
+@app.route('/api/v1/courses/<id>',methods=['DELETE'])
+def delete_course(id):
+    mongo.db.courses.delete_one({'_id':ObjectId(id)})
     resp=jsonify('course deleted successfully')
+    resp.status_code=200
+    return resp
+
+
+#Delete all courses
+@app.route('/api/v1/courses',methods=['DELETE'])
+def delete_all_courses():
+    mongo.db.courses.remove({})
+    resp=jsonify('All Courses are removed')
     resp.status_code=200
     return resp
 
@@ -128,10 +137,10 @@ def udate_course():
     _json=request.json
     _id=_json['_id']
     _cname = _json['coursename']
-    _cname=_json['coursecode']
+    _ccode=_json['coursecode']
     _credits = _json['credits']
     if _cname and _cname and _credits and _id and request.method=='PUT':
-        mongo.db.course.update_one({'_id':ObjectId(_id['$oid']) if '$oid' in _id else ObjectId(_id)},{'$set': {'coursename': _cname, 'coursecode': _ccode, 'credits': _credits}})
+        mongo.db.courses.update_one({'_id':ObjectId(_id['$oid']) if '$oid' in _id else ObjectId(_id)},{'$set': {'coursename': _cname, 'coursecode': _ccode, 'credits': _credits}})
         resp = jsonify('course updated successfully!')
         resp.status_code = 200
         return resp
@@ -139,21 +148,23 @@ def udate_course():
         return not_found()
 
 #list all courses
-
 @app.route('/api/v1/courses',methods=['GET'])
 def list_course():
-    courses=mongo.db.course.find()
+    courses=mongo.db.courses.find()
     resp=dumps(courses)
     return resp
 
 #list perticular course
 @app.route('/api/v1/courses/<id>',methods=['GET'])
 def list_pert_course(id):
-    course=mongo.db.course.find_one({'_id':ObjectId(id)})
+    course=mongo.db.courses.find_one({'_id':ObjectId(id)})
     resp=dumps(course)
     return resp
 
 
+
+
+#Faculty apis
 #Add Faculty
 @app.route('/api/v1/faculty', methods=['POST'])
 def add_faculty():

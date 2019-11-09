@@ -162,8 +162,6 @@ def list_pert_course(id):
     return resp
 
 
-
-
 #Faculty apis
 #Add Faculty
 @app.route('/api/v1/faculty', methods=['POST'])
@@ -186,13 +184,20 @@ def add_faculty():
         return not_found()
 
 #Delete Faculty
-@app.route('/api/v1/faculty/<fcode>',methods=['DELETE'])
-def delete_faculty(fcode):
-    mongo.db.faculty.delete_one({'fcode':ObjectId(fcode)})
+@app.route('/api/v1/faculty/<id>',methods=['DELETE'])
+def delete_faculty(id):
+    mongo.db.faculty.delete_one({'_id':ObjectId(id)})
     resp=jsonify('faculty deleted successfully')
     resp.status_code=200
     return resp
 
+#Delete all list_faculties
+@app.route('/api/v1/faculty',methods=['DELETE'])
+def delete_all_faculties():
+    mongo.db.faculty.remove({})
+    resp=jsonify('Removed all faculties')
+    resp.status_code=200
+    return resp
 
 #Update Faculty
 @app.route('/api/v1/faculty',methods=['PUT'])

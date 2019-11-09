@@ -379,6 +379,190 @@
 				}
 			],
 			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Faculty apis",
+			"item": [
+				{
+					"name": "Add Faculty",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\":\"Badree\",\n\t\"fcode\":\"bd5112\",\n\t\"email\":\"badree@pes.edu\",\n\t\"Dname\":\"Mechanical  Engineering\",\n\t\"pwd\":\"Mebadree\"\n}\n\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1:5000/api/v1/faculty",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"faculty"
+							]
+						},
+						"description": "This will add Faculty to faculties collection"
+					},
+					"response": []
+				},
+				{
+					"name": "Remove all Faculties",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1:5000/api/v1/faculty",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"faculty"
+							]
+						},
+						"description": "This remove all Faculties from faculties collection"
+					},
+					"response": []
+				},
+				{
+					"name": "List all Faculties",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1:5000/api/v1/faculty",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"faculty"
+							]
+						},
+						"description": "List all Faculties from faculties collection"
+					},
+					"response": []
+				},
+				{
+					"name": "List specific Faculty",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1:5000/api/v1/faculty/5dc686b08a67fad338d96682",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"faculty",
+								"5dc686b08a67fad338d96682"
+							]
+						},
+						"description": "This will list out the details of specific Faculty"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete specific Faculty",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1:5000/api/v1/faculty/5dc6879e8a67fad338d96684",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"faculty",
+								"5dc6879e8a67fad338d96684"
+							]
+						},
+						"description": "This will remove specific Faculty whose id is passed as parameter"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Faculties",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"_id\":\"5dc688504a387c2414b38e8a\",\n\t\"name\":\"Shrkant\",\n\t\"fcode\":\"CC5112\",\n\t\"email\":\"shree@pes.edu\",\n\t\"Dname\":\"Mechanical  Engineering\",\n\t\"pwd\":\"Mebadree\"\n}\n\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1:5000/api/v1/faculty",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"faculty"
+							]
+						},
+						"description": "This will update Faculty whose id is passed as parameter"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
 		}
 	],
 	"protocolProfileBehavior": {}

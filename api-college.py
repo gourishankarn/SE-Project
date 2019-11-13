@@ -4,14 +4,11 @@ from pymongo import MongoClient
 from flask import jsonify
 from flask import request
 from flask import make_response
-
 from bson.json_util import dumps
 from bson.objectid import ObjectId
 from flask import jsonify, request
 from werkzeug import generate_password_hash, check_password_hash
-
 app = Flask(__name__)
-
 app.config['MONGO_DBNAME'] = 'SE_DB'
 app.config["MONGO_URI"] = "mongodb://localhost:27017/SE_DB"
 mongo = PyMongo(app)
@@ -24,7 +21,6 @@ def not_found(error):
 
 
 #student related apis
-
 #Add student api
 @app.route('/api/v1/student', methods=['POST'])
 def add_student():
@@ -90,6 +86,7 @@ def delete_student(usn):
         resp.status_code=200
         return resp
 
+
 #Delete all Student
 @app.route('/api/v1/student',methods=['DELETE'])
 def delete_all_student():
@@ -122,7 +119,6 @@ def update_student():
         return not_found()
 
 
-
 #courses releated apis
 #Add course
 @app.route('/api/v1/courses', methods=['POST'])
@@ -137,16 +133,14 @@ def add_course():
     if(flag):
         resp=jsonify('course already exist')
         resp.status_code=409
-        return resp
     elif _cname and _ccode and _credits and request.method == 'POST':
+        return resp
         id = mongo.db.courses.insert({'coursename': _cname, 'coursecode': _ccode, 'credits': _credits})
         resp = jsonify('course added successfully!')
         resp.status_code = 200
         return resp
     else:
         return not_found()
-
-
 
 
 #Delete course
@@ -163,6 +157,7 @@ def delete_course(coursecode):
         resp.status_code=200
         return resp
 
+
 #Delete all courses
 @app.route('/api/v1/courses',methods=['DELETE'])
 def delete_all_courses():
@@ -170,6 +165,7 @@ def delete_all_courses():
     resp=jsonify('All Courses are removed')
     resp.status_code=200
     return resp
+
 
 #Update course
 @app.route('/api/v1/courses',methods=['PUT'])
@@ -188,8 +184,6 @@ def udate_course():
         return not_found()
 
 
-
-
 #list all courses
 @app.route('/api/v1/courses',methods=['GET'])
 def list_course():
@@ -201,7 +195,6 @@ def list_course():
         res = jsonify('No courses exist in database')
         res.status_code = 204
         return res
-
 
 
 #list perticular course
@@ -228,7 +221,13 @@ def add_faculty():
     _email=_json['email']
     _dname=_json['Dname']
     _password=_json['pwd']
-    if _name and _fcode and _email and _dname  and _password and request.method=='POST':
+    flag=mongo.db.faculty.find_one({'fcode':_fcode})
+    print(flag)
+    if(flag):
+        resp=jsonify('Faculty already exist')
+        resp.status_code=409
+        return resp
+    elif _name and _fcode and _email and _dname  and _password and request.method=='POST':
         _hashed_password=generate_password_hash(_password)
         print(_hashed_password )
         id = mongo.db.faculty.insert({'name': _name, 'fcode': _fcode,'email':_email,'Dname':_dname, 'pwd': _hashed_password})
@@ -238,15 +237,22 @@ def add_faculty():
     else:
         return not_found()
 
-#Delete Faculty
-@app.route('/api/v1/faculty/<id>',methods=['DELETE'])
-def delete_faculty(id):
-    mongo.db.faculty.delete_one({'_id':ObjectId(id)})
-    resp=jsonify('faculty deleted successfully')
-    resp.status_code=200
-    return resp
 
-#Delete all list_faculties
+#Delete Faculty
+@app.route('/api/v1/faculty/<fcode>',methods=['DELETE'])
+def delete_faculty(fcode):
+    faculty = mongo.db.faculty.find_one({'fcode':fcode})
+    res1=dumps(faculty)
+    if(res1=='null'):
+        resp=jsonify('faculty does not exist')
+        return resp
+    else:
+        mongo.db.faculty.delete_one({'fcode':fcode})
+        resp=jsonify('faculty deleted successfully')
+        resp.status_code=200
+        return resp
+
+#Delete all faculties
 @app.route('/api/v1/faculty',methods=['DELETE'])
 def delete_all_faculties():
     mongo.db.faculty.remove({})
@@ -273,19 +279,30 @@ def update_faculty():
     else:
         return not_found()
 
+
 #list all Faculties
 @app.route('/api/v1/faculty',methods=['GET'])
 def list_faculties():
     faculty=mongo.db.faculty.find()
     resp=dumps(faculty)
-    return resp
+    if resp!='[]':
+        return resp
+    elif resp=='[]':
+        res=jsonify('No faculties exist in database')
+        res.status_code = 204
+        return res
 
 #List any specific Faculty
-@app.route('/api/v1/faculty/<id>',methods=['GET'])
-def list_pert_faculty(id):
-    faculty=mongo.db.faculty.find_one({'_id':ObjectId(id)})
+@app.route('/api/v1/faculty/<fcode>',methods=['GET'])
+def list_pert_faculty(fcode):
+    faculty=mongo.db.faculty.find_one({'fcode':fcode})
     resp=dumps(faculty)
-    return resp
+    if resp!='null':
+        return resp
+    elif resp=='null':
+        res = jsonify('faculty does not exist')
+        res.status_code = 204
+        return res
 
 
 if __name__ == '__main__':

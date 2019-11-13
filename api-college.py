@@ -124,7 +124,6 @@ def update_student():
 
 
 #courses releated apis
-
 #Add course
 @app.route('/api/v1/courses', methods=['POST'])
 def add_course():
@@ -133,7 +132,13 @@ def add_course():
     _cname=_json['coursename']
     _ccode=_json['coursecode']
     _credits=_json['credits']
-    if _cname and _ccode and _credits and request.method=='POST':
+    flag=mongo.db.courses.find_one({'coursename':_cname})
+    print(flag)
+    if(flag):
+        resp=jsonify('course already exist')
+        resp.status_code=409
+        return resp
+    elif _cname and _ccode and _credits and request.method == 'POST':
         id = mongo.db.courses.insert({'coursename': _cname, 'coursecode': _ccode, 'credits': _credits})
         resp = jsonify('course added successfully!')
         resp.status_code = 200
@@ -141,14 +146,22 @@ def add_course():
     else:
         return not_found()
 
-#Delete course
-@app.route('/api/v1/courses/<id>',methods=['DELETE'])
-def delete_course(id):
-    mongo.db.courses.delete_one({'_id':ObjectId(id)})
-    resp=jsonify('course deleted successfully')
-    resp.status_code=200
-    return resp
 
+
+
+#Delete course
+@app.route('/api/v1/courses/<coursecode>',methods=['DELETE'])
+def delete_course(coursecode):
+    course = mongo.db.courses.find_one({'coursecode':coursecode})
+    res1=dumps(course)
+    if(res1=='null'):
+        resp=jsonify('course does not exist')
+        return resp
+    else:
+        mongo.db.courses.delete_one({'coursecode':coursecode})
+        resp=jsonify('course deleted successfully')
+        resp.status_code=200
+        return resp
 
 #Delete all courses
 @app.route('/api/v1/courses',methods=['DELETE'])
@@ -174,19 +187,34 @@ def udate_course():
     else:
         return not_found()
 
+
+
+
 #list all courses
 @app.route('/api/v1/courses',methods=['GET'])
 def list_course():
     courses=mongo.db.courses.find()
     resp=dumps(courses)
-    return resp
+    if resp!='[]':
+        return resp
+    elif resp=='[]':
+        res = jsonify('No courses exist in database')
+        res.status_code = 204
+        return res
+
+
 
 #list perticular course
-@app.route('/api/v1/courses/<id>',methods=['GET'])
-def list_pert_course(id):
-    course=mongo.db.courses.find_one({'_id':ObjectId(id)})
+@app.route('/api/v1/courses/<coursecode>',methods=['GET'])
+def list_pert_course(coursecode):
+    course=mongo.db.courses.find_one({'coursecode':coursecode})
     resp=dumps(course)
-    return resp
+    if resp!='null':
+        return resp
+    elif resp=='null':
+        res = jsonify('student does not exist')
+        res.status_code = 204
+        return res
 
 
 #Faculty apis

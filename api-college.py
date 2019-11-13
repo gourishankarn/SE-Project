@@ -33,7 +33,13 @@ def add_student():
     _name=_json['name']
     _usn=_json['usn']
     _password=_json['pwd']
-    if _name and _usn and _password and request.method=='POST':
+    flag = mongo.db.student.find_one({'usn':_usn})
+    print(flag)
+    if(flag):
+        resp=jsonify('student already exist')
+        resp.status_code=409
+        return resp
+    elif _name and _usn and _password and request.method=='POST':
         _hashed_password=generate_password_hash(_password)
         print(_hashed_password  )
         id = mongo.db.student.insert({'name': _name, 'usn': _usn, 'pwd': _hashed_password})
@@ -49,24 +55,40 @@ def add_student():
 def list_students():
     students=mongo.db.student.find()
     resp=dumps(students)
-    return resp
+    if resp!='[]':
+        return resp
+    elif resp=='[]':
+        res=jsonify('No students in database')
+        res.status_code = 204
+        return res
 
 
 #list specific student
-@app.route('/api/v1/student/<id>',methods=['GET'])
-def student(id):
-    student=mongo.db.student.find_one({'_id':ObjectId(id)})
+@app.route('/api/v1/student/<usn>',methods=['GET'])
+def student(usn):
+    student=mongo.db.student.find_one({'usn':usn})
     resp=dumps(student)
-    return resp
+    if resp!='null':
+        return resp
+    elif resp=='null':
+        res=jsonify('student does not exist')
+        res.status_code = 204
+        return res
 
 
 #Delete specific Student
-@app.route('/api/v1/student/<id>',methods=['DELETE'])
-def delete_student(id):
-    mongo.db.student.delete_one({'_id':ObjectId(id)})
-    resp=jsonify('student deleted successfully')
-    resp.status_code=200
-    return resp
+@app.route('/api/v1/student/<usn>',methods=['DELETE'])
+def delete_student(usn):
+    student=mongo.db.student.find_one({'usn':usn})
+    res1=dumps(student)
+    if(res1=='null'):
+        resp=jsonify('student does not exist')
+        return resp
+    else:
+        mongo.db.student.delete_one({'usn':usn})
+        resp=jsonify('student deleted successfully')
+        resp.status_code=200
+        return resp
 
 #Delete all Student
 @app.route('/api/v1/student',methods=['DELETE'])
@@ -85,6 +107,11 @@ def update_student():
     _name = _json['name']
     _usn=_json['usn']
     _password = _json['pwd']
+    flag=mongo.db.student.find_one({'usn':_usn})
+    print(flag)
+    print(type(flag))
+    if flag == 'None':
+        resp=jsonify('User does not exist')
     if _name and _usn and _password and _id and request.method=='PUT':
         _hashed_password=generate_password_hash(_password)
         mongo.db.student.update_one({'_id':ObjectId(_id['$oid']) if '$oid' in _id else ObjectId(_id)},{'$set': {'name': _name, 'usn': _usn, 'pwd': _hashed_password}})

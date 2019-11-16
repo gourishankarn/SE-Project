@@ -204,6 +204,47 @@
 						"description": "This will update the student record "
 					},
 					"response": []
+				},
+				{
+					"name": "Login ",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"usn\":\"01FB16ECS124\",\n\t\"password\":\"pbkdf2:sha256:50000$wKk7GNyB$5039b3e7ee2d3ef26c649b4265ad93aa2b16e440b39bcf8c01376e13226e794e\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1:5000/api/v1/student/login",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"student",
+								"login"
+							]
+						},
+						"description": "This api will check for student login"
+					},
+					"response": []
 				}
 			],
 			"protocolProfileBehavior": {}
@@ -558,6 +599,34 @@
 							]
 						},
 						"description": "This will update Faculty whose id is passed as parameter"
+					},
+					"response": []
+				},
+				{
+					"name": "Faculty login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"fcode\":\"\",\n\t\"password\":\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": ""
+						},
+						"description": "This api is for faculty login"
 					},
 					"response": []
 				}

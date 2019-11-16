@@ -60,7 +60,7 @@ def list_students():
 
 
 #list specific student
-@app.route('/api/v1/student/<usn>',methods=['GET'])
+@app.route('/api/v1/student/<usn>', methods=['GET'])
 def student(usn):
     student=mongo.db.student.find_one({'usn':usn})
     resp=dumps(student)
@@ -70,6 +70,51 @@ def student(usn):
         res=jsonify('student does not exist')
         res.status_code = 204
         return res
+
+#student login
+@app.route('/api/v1/student/login', methods=['POST'])
+def student_login():
+    data=request.json
+    usn=data['usn']
+    passw=data['password']
+    student=mongo.db.student.find_one({'usn':usn})
+    resp=dumps(student)
+    if resp=='null':
+        resp=jsonify('student does not exist')
+        resp.status_code=204
+        return resp
+    elif resp!='null':
+        pass1=student['pwd']
+        if passw==pass1:
+            res=jsonify('Student Login successfully')
+            res.status_code=200
+        else:
+            res=jsonify('Student does not exist')
+            res.status_code=204
+        return res
+
+#faculty login
+@app.route('/api/v1/faculty/login', methods=['POST'])
+def faculty_login():
+    data=request.json
+    fcode=data['fcode']
+    passw=data['password']
+    faculty=mongo.db.faculty.find_one({'fcode':fcode})
+    resp=dumps(faculty)
+    if resp=='null':
+        resp=jsonify('faculty does not exist')
+        resp.status_code=204
+        return resp
+    elif resp!='null':
+        pass1=faculty['pwd']
+        if passw==pass1:
+            res=jsonify('faculty Login successfully')
+            res.status_code=200
+        else:
+            res=jsonify('faculty does not exist')
+            res.status_code=204
+        return res
+
 
 
 #Delete specific Student
@@ -280,6 +325,7 @@ def update_faculty():
         return not_found()
 
 
+
 #list all Faculties
 @app.route('/api/v1/faculty',methods=['GET'])
 def list_faculties():
@@ -303,7 +349,6 @@ def list_pert_faculty(fcode):
         res = jsonify('faculty does not exist')
         res.status_code = 204
         return res
-
 
 if __name__ == '__main__':
     app.run(debug=True)

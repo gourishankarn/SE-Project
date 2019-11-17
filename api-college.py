@@ -181,7 +181,6 @@ def add_course():
         resp=jsonify('course already exist')
         resp.status_code=409
     elif _cname and _ccode and _credits and request.method == 'POST':
-        return resp
         id = mongo.db.courses.insert({'coursename': _cname, 'coursecode': _ccode, 'credits': _credits})
         resp = jsonify('course added successfully!')
         resp.status_code = 200

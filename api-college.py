@@ -51,6 +51,7 @@ def add_student():
 def list_students():
     students=mongo.db.student.find()
     resp=dumps(students)
+    print(type(resp))
     if resp!='[]':
         return resp
     elif resp=='[]':

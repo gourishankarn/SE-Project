@@ -37,7 +37,18 @@
   <div class="d-flex">
     <button class="btn btn-warning mr-4" id="loginstudent">loginstudent</button>
   </div>
-
+  <br>
+  <div class="d-flex">
+    <button class="btn btn-warning mr-4" id="addfaculty">Add Faculty </button>
+  </div>
+  <br>
+  <div class="d-flex">
+    <button class="btn btn-warning mr-4" id="getfaculties">ListFaculties </button>
+  </div>
+  <br>
+  <div class="d-flex">
+    <button class="btn btn-warning mr-4" id="deletefaculties">deletefaculties </button>
+  </div>
 
     <hr>
         <div id="output"></div>
@@ -56,6 +67,7 @@
   </div>
       <script>
 
+      //Student
           const sendHttpRequest = (method, url, data) => {
             return fetch(url,{
               method : method,
@@ -78,6 +90,8 @@
           const getuser = document.getElementById('getstudents');
           const senduser = document.getElementById('addstudent');
           const deleteuser = document.getElementById('deletestudents');
+
+
 
           const getData = () => {
             sendHttpRequest('GET','http://127.0.0.1:5000/api/v1/student')
@@ -112,6 +126,49 @@
           getuser.addEventListener('click',getData);
           senduser.addEventListener('click',sendData);
           deleteuser.addEventListener('click',deleteData);
+
+
+          //Faculty
+                    const getfaclty = document.getElementById('getfaculties');
+                    const sendfaculty = document.getElementById('addfaculty');
+                    const deletefaculty = document.getElementById('deletefaculties');
+
+                    const getfaculties = () => {
+                      sendHttpRequest('GET','http://127.0.0.1:5000/api/v1/faculty')
+                      .then(responseData => {
+                        console.log(responseData);
+                      });
+                    };
+
+                    const addfaculties = () => {
+                      sendHttpRequest('POST','http://127.0.0.1:5000/api/v1/faculty',{
+                          name:"Shrikant",
+                          fcode:"bsew11",
+                          email:"badree@pes.edu",
+                          Dname:"Mechanical  Engineering",
+                          pwd:"Mebadree"
+                        }).then(responseData => {
+                           console.log(responseData)
+                         })
+                         .catch(err => {
+                           console.log(err);
+                         });
+                    };
+
+                    const deletefaculties = () => {
+                      sendHttpRequest('DELETE','http://127.0.0.1:5000/api/v1/faculty')
+                      .then(responseData =>{
+                        console.log(responseData)
+                      })
+                      .catch(err => {
+                        console.log(err);
+                      });
+                    };
+
+                    getfaclty.addEventListener('click',getfaculties);
+                    addfaculty.addEventListener('click',addfaculties);
+                    deletefaculty.addEventListener('click',deletefaculties);
+
 
         </script>
       </body>

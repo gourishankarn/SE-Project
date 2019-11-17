@@ -24,3 +24,8 @@ name,fcode,email,Dname,pwd
 # Status Fields :-
 
 event,course,Team,faculty,content,status
+
+# Web UI :-
+
+Needs mdb downloaded.
+Place style.css in the css folder of mdb

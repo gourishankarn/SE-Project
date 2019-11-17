@@ -50,6 +50,7 @@ def add_student():
 @app.route('/api/v1/student',methods=['GET'])
 def list_students():
     students=mongo.db.student.find()
+    print(type(students))
     resp=dumps(students)
     print(type(resp))
     if resp!='[]':

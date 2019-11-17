@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Fetch API Sandbox</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+</head>
+<body>
+<div class="container">
+  <h1 class="display-4 mb-4">Fetch API Sandbox</h1>
+  <div class="d-flex">
+    <div class="d-flex">
+      <button class="btn btn-warning mr-4" id="addstudent">Add student</button>
+    </div>
+    <br>
+    <button class="btn btn-warning mr-4" id="getstudents">List students</button>
+  </div>
+  <br>
+  <div class="d-flex">
+    <button class="btn btn-warning mr-4" id="deletestudents">delete all students</button>
+  </div>
+  <br>
+  <div class="d-flex">
+    <button class="btn btn-warning mr-4" id="del1student">Delete any student</button>
+  </div>
+  <br>
+  <div class="d-flex">
+    <button class="btn btn-warning mr-4" id="updatestudent">Update student</button>
+  </div>
+  <br>
+  <div class="d-flex">
+    <button class="btn btn-warning mr-4" id="listanystudent">listallstudent</button>
+  </div>
+  <br>
+  <div class="d-flex">
+    <button class="btn btn-warning mr-4" id="loginstudent">loginstudent</button>
+  </div>
+
+
+    <hr>
+        <div id="output"></div>
+        <form id="adduser">
+          <div class="form-group">
+            <input type="text" id="name" class="form-control" placeholder="Name">
+          </div>
+          <div class="form-group">
+            <textarea id="usn" class="form-control" placeholder="USN"></textarea>
+          </div>
+          <div class="form-group">
+            <textarea id="password" class="form-control" placeholder="password"></textarea>
+          </div>
+          <input type="submit" class="btn btn-secondary" value="Submit">
+        </form>
+  </div>
+      <script>
+
+          const sendHttpRequest = (method, url, data) => {
+            return fetch(url,{
+              method : method,
+              body : JSON.stringify(data),
+              headers : data ? {
+                'Content-Type' : 'application/json'
+              }:{}
+            }).then(response => {
+              if(response.status >= 400){
+                response.json().then(errResData => {
+                  const error = new Error('something went wrong!');
+                  error.data = errResData;
+                  throw error;
+                });
+              }
+              return response.json();
+            });
+          };
+
+          const getuser = document.getElementById('getstudents');
+          const senduser = document.getElementById('addstudent');
+          const deleteuser = document.getElementById('deletestudents');
+
+          const getData = () => {
+            sendHttpRequest('GET','http://127.0.0.1:5000/api/v1/student')
+            .then(responseData => {
+              console.log(responseData);
+            });
+          };
+
+          const sendData = () => {
+            sendHttpRequest('POST','http://127.0.0.1:5000/api/v1/student',{
+	             name:"Gnana",
+	             usn:"01FB16ECS119",
+	             pwd:"@#$%1232"
+              }).then(responseData => {
+                 console.log(responseData)
+               })
+               .catch(err => {
+                 console.log(err);
+               });
+          };
+
+          const deleteData = () => {
+            sendHttpRequest('DELETE','http://127.0.0.1:5000/api/v1/student')
+            .then(responseData =>{
+              console.log(responseData)
+            })
+            .catch(err => {
+              console.log(err);
+            });
+          };
+
+          getuser.addEventListener('click',getData);
+          senduser.addEventListener('click',sendData);
+          deleteuser.addEventListener('click',deleteData);
+
+        </script>
+      </body>
+    </html>

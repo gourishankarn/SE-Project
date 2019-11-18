@@ -31,7 +31,7 @@
   </div>
   <br>
   <div class="d-flex">
-    <button class="btn btn-warning mr-4" id="listanystudent">listallstudent</button>
+    <button class="btn btn-warning mr-4" id="listanystudent">listanystudent</button>
   </div>
   <br>
   <div class="d-flex">
@@ -89,11 +89,12 @@
               return response.json();
           });
       };
-
       const getuser = document.getElementById('getstudents');
       const senduser = document.getElementById('addstudent');
       const deleteuser = document.getElementById('deletestudents');
       const updateuser = document.getElementById('updatestudent');
+      const list1student = document.getElementById('listanystudent');
+      const deletestudent1 = document.getElementById('del1student');
 
       const getData = () => {
           sendHttpRequest('GET', 'http://127.0.0.1:5000/api/v1/student')
@@ -135,16 +136,37 @@
                 console.log(err);
             });
       };
+
+      const listanystudent1 = () => {
+        var usn = '01FB16ECS119';
+          sendHttpRequest('GET', 'http://127.0.0.1:5000/api/v1/student/'+usn)
+              .then(responseData => {
+                  console.log(responseData);
+              });
+      };
+
+      const deleteany1student = () => {
+        var usn = '01FB16ECS119';
+          sendHttpRequest('DELETE', 'http://127.0.0.1:5000/api/v1/student/'+usn)
+              .then(responseData => {
+                  console.log(responseData)
+              })
+              .catch(err => {
+                  console.log(err);
+              });
+      };
       getuser.addEventListener('click', getData);
       senduser.addEventListener('click', sendData);
       deleteuser.addEventListener('click', deleteData);
       updateuser.addEventListener('click',updateuser1);
+      list1student.addEventListener('click',listanystudent1);
+      deletestudent1.addEventListener('click',deleteany1student);
+
 
       const getfaclty = document.getElementById('getfaculties');
       const sendfaculty = document.getElementById('addfaculty');
       const deletefaculty = document.getElementById('deletefaculties');
       const updatefaculty = document.getElementById('updatefaculty');
-
       const getfaculties = () => {
           sendHttpRequest('GET', 'http://127.0.0.1:5000/api/v1/faculty')
               .then(responseData => {
@@ -193,12 +215,10 @@
       addfaculty.addEventListener('click', addfaculties);
       deletefaculty.addEventListener('click', deletefaculties);
       updatefaculty.addEventListener('click',updatefaculties1);
-
       const getcourse = document.getElementById('getcourses');
       const addcourse = document.getElementById('addcourse');
       const deletecourse = document.getElementById('deletecourses');
       const updatecourse = document.getElementById('updatecourses');
-
       const getcourses = () => {
           sendHttpRequest('GET', 'http://127.0.0.1:5000/api/v1/courses')
               .then(responseData => {
@@ -239,8 +259,6 @@
                   console.log(err);
               });
       };
-
-
       getcourse.addEventListener('click', getcourses);
       addcourse.addEventListener('click', addcourses);
       deletecourse.addEventListener('click', deletecourses);

@@ -29,6 +29,7 @@ def add_student():
     _name=_json['name']
     _usn=_json['usn']
     _password=_json['pwd']
+    print('camehere')
     flag = mongo.db.student.find_one({'usn':_usn})
     print(flag)
     if(flag):
@@ -175,6 +176,7 @@ def add_course():
     _cname=_json['coursename']
     _ccode=_json['coursecode']
     _credits=_json['credits']
+    print(_cname,_ccode,_credits)
     flag=mongo.db.courses.find_one({'coursename':_cname})
     print(flag)
     if(flag):

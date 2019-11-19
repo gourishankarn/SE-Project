@@ -55,8 +55,8 @@
                     <i class="far fa-calendar-alt"></i> CALENDAR
                 </div>
                 <div class="card-body text-center font-weight-light bg-danger">
-                    <h2><b>17</b> NOV,</h2>
-                    <h6 class="text-muted">Sunday, 2019</h6>
+                    <h2 id="date"><b></h2>
+                    <h6 id="time" class="text-muted"></h6>
                 </div>
                 <div class="card-body text-center font-weight-light">
                     <button class="btn btn-success rounded-pill"><i class="fas fa-cog"></i> View Calendar</button>
@@ -169,11 +169,6 @@
                                             <input type="password" class="form-control" id="studupdatepwd" placeholder="New Password">
                                         </div>
                                     </div>
-                                    <div class="col">
-                                        <div class="md-form mt-0">
-                                            <input type="password" class="form-control" id="studupdatecpwd" placeholder="Confirm New Password">
-                                        </div>
-                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="col">
@@ -189,6 +184,13 @@
     </div>
     </div>
     <script>
+        var d = new Date();
+        var d1=JSON.stringify(d);
+        d1.split("GMT");
+        var d2=d1.split("T");
+        document.getElementById("date").innerHTML=d2[0];
+        document.getElementById("time").innerHTML=d2[1];
+
         var url = window.location.href;
         console.log(url);
 
@@ -252,15 +254,21 @@
         //Update Student
         const updateStudent = () => {
             sendHttpRequest("PUT", "http://127.0.0.1:5000/api/v1/student", {
-                    _id: "5dd22b935e9e3e53f8bdcdf3",
                     name: document.getElementById("studupdatename").value,
                     usn: document.getElementById("studupdateusn").value,
                     pwd: document.getElementById("studupdatepwd").value
                 })
                 .then(responseData => {
+                  if(responseData=='User updated successfully!'){
+                    alert('User updated successfully!');
                     console.log(responseData);
+                  }
+                  else{
+                    alert('Please Give valid input');
+                  }
                 })
                 .catch(err => {
+                    alert('Please Give valid input');
                     console.log(err);
                 });
         };
@@ -338,5 +346,4 @@
         remove_course.addEventListener("click", removeCourse); //
     </script>
 </body>
-
 </html>

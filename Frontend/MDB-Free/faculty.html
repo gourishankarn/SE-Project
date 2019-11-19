@@ -58,8 +58,8 @@
                     <i class="far fa-calendar-alt"></i> CALENDAR
                 </div>
                 <div class="card-body text-center font-weight-light bg-danger">
-                    <h2><b>17</b> NOV,</h2>
-                    <h6 class="text-muted">Sunday, 2019</h6>
+                  <h2 id="date"><b></h2>
+                  <h6 id="time" class="text-muted"></h6>
                 </div>
                 <div class="card-body text-center font-weight-light">
                     <button class="btn btn-success rounded-pill"><i class="fas fa-cog"></i> View Calendar
@@ -275,6 +275,16 @@
     </div>
     </div>
     <script>
+
+        var d = new Date();
+        var d1=JSON.stringify(d);
+        d1.split("GMT");
+        var d2=d1.split("T");
+        document.getElementById("date").innerHTML=d2[0];
+        document.getElementById("time").innerHTML=d2[1];
+
+
+
         const remove_all_students = document.getElementById("removeallstuds"); //
         const search_student = document.getElementById("searchstud"); //
         const remove_student = document.getElementById("removestud"); //

@@ -263,6 +263,7 @@
         .then(responseData => {
           console.log(responseData);
           alert('Login successful');
+          setTimeout(window.location='student.html',2000);
 
         })
         .catch(err => {
@@ -305,6 +306,7 @@
         .then(responseData => {
           console.log(responseData);
           alert('Login successful');
+          setTimeout(window.location='faculty.html',2000);
           //redirect('faculty.html');
         })
         .catch(err => {

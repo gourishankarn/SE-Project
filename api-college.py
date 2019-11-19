@@ -28,18 +28,18 @@ def add_student():
     print(_json)
     _name=_json['name']
     _usn=_json['usn']
-    _section = _json['section']
     _password=_json['pwd']
+    _section = _json['section']
     flag = mongo.db.student.find_one({'usn':_usn})
     print(flag)
     if(flag):
         resp=jsonify('student already exist')
         resp.status_code=409
         return resp
-    elif _name and _usn and _section and _password and request.method == 'POST':
+    elif _name and _usn and _password and _section and request.method=='POST':
         _hashed_password=generate_password_hash(_password)
         print(_hashed_password  )
-        id = mongo.db.student.insert({'name': _name, 'usn': _usn, 'section':_section, 'pwd': _password})
+        id = mongo.db.student.insert({'name': _name, 'usn': _usn, 'section':_section, 'pwd': _hashed_password})
         resp = jsonify('student added successfully!')
         resp.status_code = 200
         return resp
@@ -278,7 +278,7 @@ def add_faculty():
     elif _name and _fcode and _email and _dname  and _password and request.method=='POST':
         _hashed_password=generate_password_hash(_password)
         print(_hashed_password )
-        id = mongo.db.faculty.insert({'name': _name, 'fcode': _fcode,'email':_email,'Dname':_dname, 'pwd': _password})
+        id = mongo.db.faculty.insert({'name': _name, 'fcode': _fcode,'email':_email,'Dname':_dname, 'pwd': _hashed_password})
         resp = jsonify('Faculty added successfully!')
         resp.status_code = 200
         return resp

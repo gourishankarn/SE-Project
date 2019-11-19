@@ -1,0 +1,136 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Modern Search</title>
+    <link rel="canonical" href="/">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Lobster&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="ui secondary pointing menu">
+        <a href="index.html">
+            <span class="brand-logo item">
+                Search it
+            </span>
+        </a>
+        <div class="right menu">
+            <a href="index.html" class="active item" id="home">
+                <i class="large home icon"></i>
+                <p>
+                    Home
+                </p>
+            </a>
+            <a class="item" id="test">
+                <i class="large info circle icon"></i>
+                <p>
+                    About
+                </p>
+            </a>
+            <a class="item" style="border-bottom: none;">
+                <button class="ui purple button" id="test2">Sign in</button>
+            </a>
+        </div>
+    </div>
+    <section class="main-sec">
+        <div class="ui stackable center aligned grid container">
+            <div class="row">
+                <div class="thirteen wide column">
+                    <div class="ui">
+                        <h2>The Modern Search Engine</h2>
+                        <p><i>How it's done now. Search your unique thoghts.</i></p>
+                        <div class="ui category">
+                            <div class="ui icon input">
+                                <input class="prompt" type="text" placeholder="Search queries . . .">
+                                <i class="large violet search icon"></i>
+                            </div>
+                            <div class="results"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+
+    <footer>
+        <div class="ui center aligned container">
+            <div class="brand-footer">
+                <div class="social-logos">
+                    <a href="https://www.linkedin.com">
+                        <i class="large circular linkedin icon"></i>
+                    </a>
+                    <a href="https://www.github.com">
+                        <i class="large circular github icon"></i>
+                    </a>
+                    <a href="https://www.gmail.com">
+                        <i class="large circular at icon"></i>
+                    </a>
+                </div>
+                <div class="message">
+                    <p>Made with Passion</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div class="ui modal test">
+        <i class="close icon"></i>
+        <div class="header">
+            Profile Picture
+        </div>
+        <div class="image content">
+            <div class="ui medium image">
+                <img src="https://semantic-ui.com/images/avatar2/large/rachel.png">
+            </div>
+            <div class="description">
+                <div class="ui header">We've auto-chosen a profile image for you.</div>
+                <p>We've grabbed the following image from the <a href="https://www.gravatar.com"
+                        target="_blank">gravatar</a> image associated with your registered e-mail address.</p>
+                <p>Is it okay to use this photo?</p>
+                <h3><b><i>We'll customise it as per requirment</i></b></h3>
+            </div>
+        </div>
+        <div class="actions">
+            <div class="ui black deny button">
+                Nope
+            </div>
+            <div class="ui positive right labeled icon button">
+                Yep, that's me
+                <i class="checkmark icon"></i>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- <script src="script.js"></script> -->
+    <script>
+            $(function () {
+                $('#test').click(function () {
+                    $('.test').modal('show');
+                });
+        
+                $('#test2').click(function () {
+                    $('.test').modal('show');
+                });
+                $('.ui.menu a.item').on('click', function () {
+                    $(this)
+                        .addClass('active')
+                        .siblings()
+                        .removeClass('active');
+                })
+            });
+        </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+</body>
+
+</html>

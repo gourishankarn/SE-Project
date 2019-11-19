@@ -172,16 +172,18 @@ def update_student():
 @app.route('/api/v1/courses', methods=['POST'])
 def add_course():
     _json=request.json
-    print(_json)
+    #print(_json)
     _cname=_json['coursename']
     _ccode=_json['coursecode']
     _credits=_json['credits']
-    print(_cname,_ccode,_credits)
-    flag=mongo.db.courses.find_one({'coursename':_cname})
-    print(flag)
+    #print(_cname,_ccode,_credits)
+    flag=mongo.db.courses.find_one({'coursecode':_ccode})
+    #print(flag)
+    #print(type(flag))
     if(flag):
         resp=jsonify('course already exist')
         resp.status_code=409
+        return resp
     elif _cname and _ccode and _credits and request.method == 'POST':
         id = mongo.db.courses.insert({'coursename': _cname, 'coursecode': _ccode, 'credits': _credits})
         resp = jsonify('course added successfully!')
@@ -189,6 +191,7 @@ def add_course():
         return resp
     else:
         return not_found()
+
 
 
 #Delete course
@@ -219,12 +222,16 @@ def delete_all_courses():
 @app.route('/api/v1/courses',methods=['PUT'])
 def udate_course():
     _json=request.json
-    _id=_json['_id']
     _cname = _json['coursename']
     _ccode=_json['coursecode']
     _credits = _json['credits']
-    if _cname and _cname and _credits and _id and request.method=='PUT':
-        mongo.db.courses.update_one({'_id':ObjectId(_id['$oid']) if '$oid' in _id else ObjectId(_id)},{'$set': {'coursename': _cname, 'coursecode': _ccode, 'credits': _credits}})
+    course = mongo.db.courses.find_one({'coursecode':_ccode})
+    res1=dumps(course)
+    if(res1=='null'):
+        resp=jsonify('course does not exist')
+        return resp
+    elif _cname and _ccode and _credits  and request.method=='PUT':
+        mongo.db.courses.update_one({'coursecode': _ccode},{'$set': {'coursename': _cname,  'credits': _credits}})
         resp = jsonify('course updated successfully!')
         resp.status_code = 200
         return resp
@@ -257,8 +264,6 @@ def list_pert_course(coursecode):
         res.status_code = 204
         return res
 
-
-#Faculty apis
 #Add Faculty
 @app.route('/api/v1/faculty', methods=['POST'])
 def add_faculty():
@@ -312,15 +317,19 @@ def delete_all_faculties():
 @app.route('/api/v1/faculty',methods=['PUT'])
 def update_faculty():
     _json=request.json
-    _id=_json['_id']
     _name = _json['name']
     _email=_json['email']
     _dname=_json['Dname']
     _fcode=_json['fcode']
     _password = _json['pwd']
-    if _name and _email and _fcode and _id and _password and _dname and request.method=='PUT':
-        _hashed_password=generate_password_hash(_password)
-        mongo.db.faculty.update_one({'_id':ObjectId(_id['$oid']) if '$oid' in _id else ObjectId(_id)},{'$set': {'name': _name, 'fcode': _fcode, 'Dname':_dname,'email':_email, 'pwd': _hashed_password}})
+    flag=mongo.db.faculty.find_one({'fcode':_fcode})
+    print(flag)
+    if( not flag):
+        resp=jsonify('Faculty Does not exist')
+        resp.status_code=204
+        return resp
+    elif _name and _email and _fcode  and _password and _dname and request.method=='PUT':
+        mongo.db.faculty.update_one({'fcode': _fcode},{'$set': {'name': _name, 'Dname':_dname,'email':_email, 'pwd': _password}})
         resp = jsonify('Faculty updated successfully!')
         resp.status_code = 200
         return resp

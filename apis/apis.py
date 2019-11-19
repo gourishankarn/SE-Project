@@ -384,5 +384,23 @@ def team_formation():
     else:
         return not_found()
     
+#event submission - student
+@app.route('/api/v1/status',methods=['PUT'])
+def event_submission():
+    _json=request.json
+    _id=_json['_id']
+    _event=_json['event']
+    _course= _json['course']
+    _team=_json['team']
+    _faculty=_json['faculty']
+    _content=_json['content']
+    if _event and _course and _team and _faculty and _content and request.method=='PUT':
+        mongo.db.status.update_one({'_id':ObjectId(_id['$oid']) if '$oid' in _id else ObjectId(_id)},{'$set': {'event':_event , 'course':_course , 'team': _team , 'faculty' : _faculty , 'content' : _content ,'status' : 'submitted'}})
+        resp = jsonify('Status updated successfully!')
+        resp.status_code = 200
+        return resp
+    else:
+        return not_found()
+    
 if __name__ == '__main__':
     app.run(debug=True)

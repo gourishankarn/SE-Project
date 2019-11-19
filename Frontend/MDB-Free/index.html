@@ -263,7 +263,7 @@
         .then(responseData => {
           console.log(responseData);
           alert('Login successful');
-          setTimeout(window.location='student.html',2000);
+          setTimeout(window.location='student.html?usn='+'#'+document.getElementById("signstudusn").value,2000);
 
         })
         .catch(err => {

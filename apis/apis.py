@@ -344,6 +344,45 @@ def list_submitted_events():
         res.status_code = 204
         return res
 
-
+def check_section(resp):
+    if len(resp) == 0:
+        return False
+    a = resp[0]
+    b = a['section']
+    for i in resp:
+        if i['section']!=b:
+            return True
+        else:
+            continue
+    return False
+    
+ #Team Formation - student
+@app.route('/api/v1/team',methods=['POST'])
+def team_formation():
+    _json=request.json
+    print(_json)
+    _usn=_json['usn']
+    _section=_json['section']
+    _teamno=_json['teamno']
+    team=mongo.db.team.find({'teamno':_teamno})
+    x = mongo.db.team.find_one({'usn':_usn})
+    res1 = dumps(x)
+    resp=dumps(team)
+    if(len(resp)>=3 or check_section(resp) ):
+        resp=jsonify('Team is FULL')
+        resp.status_code=409
+        return resp
+    elif res1 != 'null':
+        res1=jsonify('Already in a team!')
+        res1.status_code=409
+        return res1
+    elif _usn and _section and _teamno and request.method == 'POST':
+        id = mongo.db.team.insert({'teamno': _teamno,'usn': _usn ,'section': _section})
+        resp = jsonify('Added to team successfully!')
+        resp.status_code = 200
+        return resp
+    else:
+        return not_found()
+    
 if __name__ == '__main__':
     app.run(debug=True)

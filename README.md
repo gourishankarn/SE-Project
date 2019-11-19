@@ -4,10 +4,11 @@ Database name : SE_DB
 
 # Collections names :-
 
--Student
--Courses
--Faculty
--Status
+-student
+-courses
+-faculty
+-status
+-team
 
 # Student Fields :-
 
@@ -24,6 +25,10 @@ name,fcode,email,Dname,pwd
 # Status Fields :-
 
 event,course,Team,faculty,content,status
+
+# Team Fields :-
+
+teamno,usn,section
 
 # Web UI :-
 

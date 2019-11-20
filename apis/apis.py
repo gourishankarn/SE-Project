@@ -343,6 +343,49 @@ def list_submitted_events():
         res = jsonify(' No event submitted ')
         res.status_code = 204
         return res
+    
+#List all pending events - student
+@app.route('/api/v1/status/<usn>',methods=['GET'])
+def list_pending_events(usn):
+    team=mongo.db.team.find_one('usn':usn)
+    teamno=team['teamno']
+    status=mongo.db.status.find({'team':teamno,'status':'pending'})
+    resp=dumps(status)
+    if resp!='[]':
+        return resp
+    elif resp=='[]':
+        res = jsonify('No event pending ')
+        res.status_code = 204
+        return res
+
+#List all submitted events - student
+@app.route('/api/v1/status/<usn>',methods=['GET'])
+def list_submitted_events(usn):
+    team=mongo.db.team.find_one('usn':usn)
+    teamno=team['teamno']
+    status=mongo.db.status.find({'team':teamno,'status':'submitted'})
+    resp=dumps(status)
+    if resp!='[]':
+        return resp
+    elif resp=='[]':
+        res = jsonify(' No event submitted ')
+        res.status_code = 204
+        return res
+
+#List all event's status - student
+@app.route('/api/v1/status/<usn>',methods=['GET'])
+def list_all_status(usn):
+    team=mongo.db.team.find_one('usn':usn)
+    teamno=team['teamno']
+    status=mongo.db.status.find('teamno':teamno)
+    resp=dumps(status)
+    if resp!='[]':
+        return resp
+    elif resp=='[]':
+        res=jsonify('No events exit in database')
+        res.status_code = 204
+        return res
+
 
 def check_section(resp):
     if len(resp) == 0:

@@ -309,9 +309,9 @@ def list_pert_faculty(fcode):
         return res
 
 #List all event's status - faculty
-@app.route('/api/v1/status/faculty/allevents/<fcode>',methods=['GET'])
-def list_all_status(fcode):
-    faculty=mongo.db.faculty.find_one({'fcode':fcode})
+@app.route('/api/v1/status/faculty/allevents/<name>',methods=['GET'])
+def list_all_status(name):
+    faculty=mongo.db.faculty.find_one({'name':name})
     status=mongo.db.status.find({'faculty':faculty})
     resp=dumps(status)
     if resp!='[]':
@@ -322,9 +322,9 @@ def list_all_status(fcode):
         return res
     
 #List all pending events -faculty
-@app.route('/api/v1/status/faculty/pendingevents/<fcode>',methods=['GET'])
-def list_pending_events(fcode):
-    faculty=mongo.db.faculty.find_one({'fcode':fcode})
+@app.route('/api/v1/status/faculty/pendingevents/<name>',methods=['GET'])
+def list_pending_events(name):
+    faculty=mongo.db.faculty.find_one({'name':name})
     status=mongo.db.status.find({'faculty':faculty,'status':'pending'})
     resp=dumps(status)
     if resp!='[]':
@@ -335,9 +335,9 @@ def list_pending_events(fcode):
         return res
 
 #List all submitted events - faculty
-@app.route('/api/v1/status/faculty/submittedevents/<fcode>',methods=['GET'])
-def list_submitted_events(fcode):
-    faculty=mongo.db.faculty.find_one({'fcode':fcode})
+@app.route('/api/v1/status/faculty/submittedevents/<name>',methods=['GET'])
+def list_submitted_events(name):
+    faculty=mongo.db.faculty.find_one({'name':name})
     status=mongo.db.status.find({'faculty':faculty,'status':'submitted'})
     resp=dumps(status)
     if resp!='[]':

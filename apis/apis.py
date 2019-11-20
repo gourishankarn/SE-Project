@@ -308,7 +308,7 @@ def list_pert_faculty(fcode):
         res.status_code = 204
         return res
 
-#List all event's status
+#List all event's status - faculty
 @app.route('/api/v1/status',methods=['GET'])
 def list_all_status():
     status=mongo.db.status.find()
@@ -320,7 +320,7 @@ def list_all_status():
         res.status_code = 204
         return res
     
-#List all pending events
+#List all pending events -faculty
 @app.route('/api/v1/status',methods=['GET'])
 def list_pending_events():
     status=mongo.db.status.find({'status':'pending'})
@@ -332,7 +332,7 @@ def list_pending_events():
         res.status_code = 204
         return res
 
-#List all submitted events
+#List all submitted events - faculty
 @app.route('/api/v1/status',methods=['GET'])
 def list_submitted_events():
     status=mongo.db.status.find({'status':'submitted'})

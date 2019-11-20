@@ -12,7 +12,7 @@ Database name : SE_DB
 
 # Student Fields :-
 
-name,usn,pwd,section,email
+name,usn,pwd,section
 
 # Courses Fileds :-
 

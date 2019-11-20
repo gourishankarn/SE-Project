@@ -309,7 +309,7 @@ def list_pert_faculty(fcode):
         return res
 
 #List all event's status - faculty
-@app.route('/api/v1/status',methods=['GET'])
+@app.route('/api/v1/status/faculty/allevents',methods=['GET'])
 def list_all_status():
     status=mongo.db.status.find()
     resp=dumps(status)
@@ -321,7 +321,7 @@ def list_all_status():
         return res
     
 #List all pending events -faculty
-@app.route('/api/v1/status',methods=['GET'])
+@app.route('/api/v1/status/faculty/pendingevents',methods=['GET'])
 def list_pending_events():
     status=mongo.db.status.find({'status':'pending'})
     resp=dumps(status)
@@ -333,7 +333,7 @@ def list_pending_events():
         return res
 
 #List all submitted events - faculty
-@app.route('/api/v1/status',methods=['GET'])
+@app.route('/api/v1/status/faculty/submittedevents',methods=['GET'])
 def list_submitted_events():
     status=mongo.db.status.find({'status':'submitted'})
     resp=dumps(status)
@@ -345,7 +345,7 @@ def list_submitted_events():
         return res
     
 #List all pending events - student
-@app.route('/api/v1/status/<usn>',methods=['GET'])
+@app.route('/api/v1/status/student/pendingevents/<usn>',methods=['GET'])
 def list_pending_events(usn):
     team=mongo.db.team.find_one('usn':usn)
     teamno=team['teamno']
@@ -359,7 +359,7 @@ def list_pending_events(usn):
         return res
 
 #List all submitted events - student
-@app.route('/api/v1/status/<usn>',methods=['GET'])
+@app.route('/api/v1/status/student/submittedevents/<usn>',methods=['GET'])
 def list_submitted_events(usn):
     team=mongo.db.team.find_one('usn':usn)
     teamno=team['teamno']
@@ -373,7 +373,7 @@ def list_submitted_events(usn):
         return res
 
 #List all event's status - student
-@app.route('/api/v1/status/<usn>',methods=['GET'])
+@app.route('/api/v1/status/student/allevents/<usn>',methods=['GET'])
 def list_all_status(usn):
     team=mongo.db.team.find_one('usn':usn)
     teamno=team['teamno']
@@ -400,7 +400,7 @@ def check_section(resp):
     return False
     
  #Team Formation - student
-@app.route('/api/v1/team',methods=['POST'])
+@app.route('/api/v1/team/teamformation',methods=['POST'])
 def team_formation():
     _json=request.json
     print(_json)
@@ -428,7 +428,7 @@ def team_formation():
         return not_found()
     
 #event submission - student
-@app.route('/api/v1/status',methods=['PUT'])
+@app.route('/api/v1/status/eventsubmission',methods=['PUT'])
 def event_submission():
     _json=request.json
     _id=_json['_id']

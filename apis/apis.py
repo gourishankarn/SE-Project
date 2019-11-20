@@ -310,7 +310,7 @@ def list_pert_faculty(fcode):
 
 #List all event's status - faculty
 @app.route('/api/v1/status/faculty/allevents/<name>',methods=['GET'])
-def list_all_status(name):
+def list_all_status_faculty(name):
     faculty=mongo.db.faculty.find_one({'name':name})
     status=mongo.db.status.find({'faculty':faculty})
     resp=dumps(status)
@@ -323,7 +323,7 @@ def list_all_status(name):
     
 #List all pending events -faculty
 @app.route('/api/v1/status/faculty/pendingevents/<name>',methods=['GET'])
-def list_pending_events(name):
+def list_pending_events_faculty(name):
     faculty=mongo.db.faculty.find_one({'name':name})
     status=mongo.db.status.find({'faculty':faculty,'status':'pending'})
     resp=dumps(status)
@@ -336,7 +336,7 @@ def list_pending_events(name):
 
 #List all submitted events - faculty
 @app.route('/api/v1/status/faculty/submittedevents/<name>',methods=['GET'])
-def list_submitted_events(name):
+def list_submitted_events_faculty():
     faculty=mongo.db.faculty.find_one({'name':name})
     status=mongo.db.status.find({'faculty':faculty,'status':'submitted'})
     resp=dumps(status)
@@ -349,8 +349,8 @@ def list_submitted_events(name):
     
 #List all pending events - student
 @app.route('/api/v1/status/student/pendingevents/<usn>',methods=['GET'])
-def list_pending_events(usn):
-    team=mongo.db.team.find_one('usn':usn)
+def list_pending_events_student(usn):
+    team=mongo.db.team.find_one({'usn':usn})
     teamno=team['teamno']
     status=mongo.db.status.find({'team':teamno,'status':'pending'})
     resp=dumps(status)
@@ -363,8 +363,8 @@ def list_pending_events(usn):
 
 #List all submitted events - student
 @app.route('/api/v1/status/student/submittedevents/<usn>',methods=['GET'])
-def list_submitted_events(usn):
-    team=mongo.db.team.find_one('usn':usn)
+def list_submitted_events_student(usn):
+    team=mongo.db.team.find_one({'usn':usn})
     teamno=team['teamno']
     status=mongo.db.status.find({'team':teamno,'status':'submitted'})
     resp=dumps(status)
@@ -377,10 +377,10 @@ def list_submitted_events(usn):
 
 #List all event's status - student
 @app.route('/api/v1/status/student/allevents/<usn>',methods=['GET'])
-def list_all_status(usn):
-    team=mongo.db.team.find_one('usn':usn)
+def list_all_status_student(usn):
+    team=mongo.db.team.find_one({'usn':usn})
     teamno=team['teamno']
-    status=mongo.db.status.find('teamno':teamno)
+    status=mongo.db.status.find({'teamno':teamno})
     resp=dumps(status)
     if resp!='[]':
         return resp

@@ -390,13 +390,13 @@ def list_all_status_student(usn):
         return res
 
 
-def check_section(resp):
+def check_section(resp,_section):
     if len(resp) == 0:
         return False
-    a = resp[0]
-    b = a['section']
+    a = _section
+    #b = a['section']
     for i in resp:
-        if i['section']!=b:
+        if i['section']!=a:
             return True
         else:
             continue
@@ -414,7 +414,7 @@ def team_formation():
     x = mongo.db.team.find_one({'usn':_usn})
     res1 = dumps(x)
     resp=dumps(team)
-    if(len(resp)>=3 or check_section(resp) ):
+    if(len(resp)>=3 or check_section(resp,_section) ):
         resp=jsonify('Team is FULL')
         resp.status_code=409
         return resp
